@@ -1,8 +1,11 @@
 package me.dio.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.RequiredArgsConstructor;
 import me.dio.domain.model.Video;
@@ -20,5 +23,9 @@ public class VideoService {
 	
 	public List<Video> list() {
 		return videoRepository.findAll();
+	}
+	
+	public Optional<Video> listById(@PathVariable Long id) {
+		return videoRepository.findById(id);
 	}
 }
