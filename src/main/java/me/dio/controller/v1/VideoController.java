@@ -16,7 +16,7 @@ import me.dio.domain.model.Video;
 import me.dio.domain.service.VideoService;
 
 @RestController
-@RequestMapping("/api/v1/videos")
+@RequestMapping("/v1/videos")
 @RequiredArgsConstructor
 public class VideoController {
 	
