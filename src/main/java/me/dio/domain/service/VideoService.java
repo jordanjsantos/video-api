@@ -1,5 +1,7 @@
 package me.dio.domain.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,5 +16,9 @@ public class VideoService {
 	
 	public Video create(Video video) {
 		return videoRepository.save(video);
+	}
+	
+	public List<Video> list() {
+		return videoRepository.findAll();
 	}
 }
