@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.RequiredArgsConstructor;
 import me.dio.domain.model.Video;
@@ -36,6 +35,15 @@ public class VideoService {
 					recordFound.setDuration(video.getDuration());
 					return videoRepository.save(recordFound);
 				});
+	}
+	
+	public boolean delete(Long id) {
+		return videoRepository.findById(id)
+				.map(recordFound -> {
+					videoRepository.deleteById(id);
+					return true;
+				})
+				.orElse(false);
 	}
 	
 }
