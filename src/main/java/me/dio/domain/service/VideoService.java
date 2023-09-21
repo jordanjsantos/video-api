@@ -24,7 +24,18 @@ public class VideoService {
 		return videoRepository.findAll();
 	}
 	
-	public Optional<Video> listById(@PathVariable Long id) {
+	public Optional<Video> listById(Long id) {
 		return videoRepository.findById(id);
 	}
+	
+	public Optional<Video> update(Long id, Video video) {
+		return videoRepository.findById(id)
+				.map(recordFound -> {
+					recordFound.setTitle(video.getTitle());
+					recordFound.setDescription(video.getDescription());
+					recordFound.setDuration(video.getDuration());
+					return videoRepository.save(recordFound);
+				});
+	}
+	
 }
