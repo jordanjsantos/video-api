@@ -14,7 +14,7 @@
 	<artifactId>video-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>video-api</name>
-	<description>API de vídeos</description>
+	<description>Video API</description>
 	
 	<properties>
 		<java.version>17</java.version>
@@ -62,8 +62,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				
+				<configuration>
+					<mainClass>me.dio.VideoApiApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
