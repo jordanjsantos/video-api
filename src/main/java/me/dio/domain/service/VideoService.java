@@ -1,11 +1,11 @@
 package me.dio.domain.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import me.dio.domain.exception.VideoNotFoundException;
 import me.dio.domain.model.Video;
 import me.dio.domain.repository.VideoRepository;
 
@@ -23,27 +23,24 @@ public class VideoService {
 		return videoRepository.findAll();
 	}
 	
-	public Optional<Video> listById(Long id) {
-		return videoRepository.findById(id);
+	public Video listById(Long id) {
+		return videoRepository.findById(id)
+				.orElseThrow(() -> new VideoNotFoundException(id));
 	}
 	
-	public Optional<Video> update(Long id, Video video) {
+	public Video update(Long id, Video video) {
 		return videoRepository.findById(id)
 				.map(recordFound -> {
 					recordFound.setTitle(video.getTitle());
 					recordFound.setDescription(video.getDescription());
 					recordFound.setDuration(video.getDuration());
 					return videoRepository.save(recordFound);
-				});
+				}).orElseThrow(() -> new VideoNotFoundException(id));
 	}
 	
-	public boolean delete(Long id) {
-		return videoRepository.findById(id)
-				.map(recordFound -> {
-					videoRepository.deleteById(id);
-					return true;
-				})
-				.orElse(false);
+	public void delete(Long id) {
+		videoRepository.delete(videoRepository.findById(id)		
+				.orElseThrow(() -> new VideoNotFoundException(id)));
 	}
 	
 }

@@ -1,9 +1,8 @@
-package me.dio.controller.v1;
+package me.dio.api.controller.v1;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,9 @@ public class VideoController {
 	private final VideoService videoService;
 	
 	@PostMapping
-	public ResponseEntity<Video> create(@RequestBody Video video) {
-		video = videoService.create(video);
-		
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(video);
+	@ResponseStatus(HttpStatus.CREATED)
+	public Video create(@RequestBody Video video) {
+		return videoService.create(video);
 	}
 	
 	@GetMapping
@@ -38,25 +36,19 @@ public class VideoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Video> listById(@PathVariable Long id) {
-		return videoService.listById(id)
-				.map(recordFound -> ResponseEntity.ok().body(recordFound))
-				.orElse(ResponseEntity.notFound().build());
+	public Video listById(@PathVariable Long id) {
+		return videoService.listById(id);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Video> update(@PathVariable Long id, @RequestBody Video video) {
-		return videoService.update(id, video)
-				.map(recordFound -> ResponseEntity.ok().body(recordFound))
-				.orElse(ResponseEntity.notFound().build());
+	public Video update(@PathVariable Long id, @RequestBody Video video) {
+		return videoService.update(id, video);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Video> delete(@PathVariable Long id) {
-		if (videoService.delete(id)) {
-			return ResponseEntity.noContent().build();
-		}
-		return ResponseEntity.notFound().build();
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long id) {
+		videoService.delete(id);
 	}
 
 }
